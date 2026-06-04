@@ -1,0 +1,46 @@
+---
+description: Enforce WSL-first local development commands in this Windows workspace.
+globs:
+  - "**/*"
+alwaysApply: true
+---
+
+# WSL-first local development
+
+This project is edited from Windows, but local development work should prefer WSL/Linux conventions.
+
+When executing or suggesting project development commands, use WSL first for:
+
+- dependency installation
+- package manager commands
+- build, test, lint, type-check, format commands
+- dev server startup
+- shell scripts and Unix tools
+- Git workflows
+- path examples in technical instructions
+
+If WSL availability has not been verified in the current context, verify it before running development commands:
+
+```powershell
+pwsh -NoProfile -Command "wsl.exe --status"
+```
+
+After WSL is confirmed, convert project paths from Windows form to WSL form, for example:
+
+```text
+d:\Project\Galaxy-A.github.io
+/mnt/d/Project/Galaxy-A.github.io
+```
+
+For reproducible commands from an uncertain working directory, prefer:
+
+```powershell
+wsl.exe bash -lc 'cd /mnt/d/Project/Galaxy-A.github.io && <command>'
+```
+
+Use native Windows tooling only when:
+
+- the user explicitly asks for Windows-native behavior
+- interacting with Windows-only tools or Cursor/user configuration under Windows paths
+- WSL is unavailable and the task can safely run on Windows
+- the command is clearly unsuitable for WSL

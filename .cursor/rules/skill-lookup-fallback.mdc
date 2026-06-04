@@ -1,0 +1,24 @@
+---
+description: Search local skill files when the user references a skill that is missing, not triggered, or contradicts the visible available_skills list.
+globs:
+  - "**/*"
+alwaysApply: true
+---
+
+# Skill lookup fallback
+
+The visible `available_skills` list may be incomplete for troubleshooting skill behavior.
+
+When the user says or implies that:
+
+- a skill exists but was not followed
+- a skill did not trigger
+- a rule is inside a skill
+- the visible skill list conflicts with local skill files
+- they ask to find, inspect, verify, or debug a skill
+
+then search `C:\Users\YQ127\.cursor\skills` for relevant `SKILL.md` files before concluding that the skill does not exist.
+
+Do not scan the full skills directory for every normal task. Use this fallback only for explicit skill-related troubleshooting or when the user names a missing skill/rule.
+
+If a matching skill is found, read the relevant `SKILL.md` and apply it within higher-priority system, developer, and user constraints.

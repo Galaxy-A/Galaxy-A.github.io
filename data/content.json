@@ -1,0 +1,68 @@
+{
+  "site": {
+    "title": "Galaxy-A Knowledge Base",
+    "owner": "Galaxy-A",
+    "description": "个人博客、代码知识库与 10MB 内小文件索引。"
+  },
+  "posts": [
+    {
+      "id": "github-pages-static-kb",
+      "title": "用 GitHub Pages 搭建静态知识库",
+      "date": "2026-06-04",
+      "summary": "把文章、代码笔记和文件索引都放进仓库，通过浏览器端搜索完成个人知识管理。",
+      "tags": ["GitHub Pages", "静态站点", "知识管理"],
+      "url": "#posts",
+      "content": "适合个人长期维护，成本低，部署稳定。"
+    },
+    {
+      "id": "ai-proxy-pattern",
+      "title": "个人站点接入 AI 的安全边界",
+      "date": "2026-06-04",
+      "summary": "前端不要保存模型密钥，应通过 Worker、Serverless Function 或自建 API 做代理。",
+      "tags": ["AI", "安全", "代理接口"],
+      "url": "#ai",
+      "content": "浏览器端只保存代理地址，密钥只存在后端环境变量。"
+    }
+  ],
+  "knowledge": [
+    {
+      "id": "repo-content-model",
+      "title": "仓库内容模型",
+      "category": "Architecture",
+      "summary": "data/content.json 存放索引元数据，assets/files 存放 10MB 内文件，页面运行时加载并渲染。",
+      "tags": ["数据结构", "仓库组织", "GitHub"],
+      "url": "data/content.json",
+      "content": "新增内容时优先补充 JSON，再提交文件。"
+    },
+    {
+      "id": "small-file-rule",
+      "title": "小文件上传规则",
+      "category": "Files",
+      "summary": "GitHub Pages 适合托管轻量静态资源，单个文件建议控制在 10MB 以内。",
+      "tags": ["文件库", "GitHub Pages", "限制"],
+      "url": "assets/files/README.txt",
+      "content": "大文件应改用 Release、对象存储或网盘链接。"
+    },
+    {
+      "id": "search-index-rule",
+      "title": "搜索索引策略",
+      "category": "Search",
+      "summary": "搜索字段由标题、摘要、标签、分类和正文片段组成，不依赖后端服务。",
+      "tags": ["搜索", "离线索引", "前端"],
+      "url": "#search",
+      "content": "适合中小规模个人知识库。"
+    }
+  ],
+  "files": [
+    {
+      "id": "file-readme",
+      "title": "文件库说明",
+      "size": "1KB",
+      "kind": "txt",
+      "summary": "说明 assets/files 目录的用途和文件大小约束。",
+      "tags": ["说明", "文件库"],
+      "url": "assets/files/README.txt",
+      "content": "用于存放 10MB 内的小文件。"
+    }
+  ]
+}
