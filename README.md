@@ -15,11 +15,15 @@
 
 ```text
 .
+├── .github/workflows/   # GitHub Pages Jekyll 部署流程
+├── _layouts/            # Jekyll 页面布局
 ├── assets/files/        # 10MB 以内小文件
 ├── data/content.json    # 博客、知识库、文件索引
 ├── scripts/app.js       # 页面渲染、搜索、AI 代理交互
 ├── styles/site.css      # 页面样式
-├── index.html           # GitHub Pages 入口
+├── _config.yml          # Jekyll 站点配置
+├── Gemfile              # GitHub Pages/Jekyll 依赖
+├── index.html           # Jekyll 首页
 └── README.md
 ```
 
@@ -138,25 +142,35 @@
 
 ## GitHub Pages 部署
 
-1. 推送到 GitHub 仓库。
-2. 打开仓库 `Settings` → `Pages`。
-3. Source 选择 `Deploy from a branch`。
-4. Branch 选择 `main` 或 `master`，目录选择 `/root`。
-5. 保存后等待 GitHub Pages 构建完成。
+当前项目使用 Jekyll 模式，通过 GitHub Actions 构建并发布。
+
+部署链路：
+
+```text
+main 分支提交
+  ↓
+.github/workflows/jekyll-pages.yml
+  ↓
+Jekyll 构建到 _site/
+  ↓
+GitHub Pages 发布
+```
 
 部署检查项：
 
-- `index.html` 在仓库根目录。
-- `data/content.json` 可以被公开访问。
-- `scripts/app.js` 和 `styles/site.css` 路径保持不变。
-- 文件链接使用相对路径，例如 `assets/files/example.pdf`。
+- `index.html` 带有 Jekyll front matter。
+- `_layouts/default.html` 提供页面外壳。
+- `_config.yml` 中的 `url` 是 `https://galaxy-a.github.io`。
+- `Gemfile` 使用 GitHub Pages 支持的 Jekyll 依赖。
+- `data/content.json`、`scripts/app.js` 和 `styles/site.css` 保持公开静态路径。
 
 ## 本地预览
 
-可以用任意静态服务器打开，例如：
+推荐使用 Bundler 按 GitHub Pages 依赖启动 Jekyll：
 
 ```bash
-python -m http.server 8080
+bundle install
+bundle exec jekyll serve --host 127.0.0.1 --port 4000
 ```
 
-然后访问 `http://localhost:8080`。
+然后访问 `http://127.0.0.1:4000`。
