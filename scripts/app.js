@@ -1,5 +1,4 @@
 const DATA_URL = "data/content.json";
-const AI_ENDPOINT_KEY = "galaxy-a-ai-endpoint";
 
 const state = {
   data: null,
@@ -18,16 +17,12 @@ const dom = {
   knowledgeList: document.querySelector("#knowledgeList"),
   fileList: document.querySelector("#fileList"),
   cardTemplate: document.querySelector("#cardTemplate"),
-  aiForm: document.querySelector("#aiForm"),
-  aiEndpoint: document.querySelector("#aiEndpoint"),
-  aiQuestion: document.querySelector("#aiQuestion"),
-  aiAnswer: document.querySelector("#aiAnswer"),
 };
 
 const typeLabels = {
-  post: "博客",
-  knowledge: "知识库",
-  file: "文件",
+  post: "文章",
+  knowledge: "笔记",
+  file: "资料",
 };
 
 const normalize = (value) => String(value ?? "").trim().toLowerCase();
@@ -37,6 +32,14 @@ const flattenTags = (items) =>
     a.localeCompare(b, "zh-CN"),
   );
 
+const markdownToText = (markdown = "") =>
+  markdown
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/`([^`]+)`/g, "$1")
+    .replace(/[#>*_\-[\]()|]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
 const toSearchText = (item) =>
   normalize([
     item.title,
@@ -45,6 +48,7 @@ const toSearchText = (item) =>
     item.category,
     item.kind,
     item.size,
+    item.markdownText,
     ...(item.tags ?? []),
   ].join(" "));
 
@@ -62,6 +66,133 @@ const formatMeta = (item) => {
 
 const setEmpty = (target, message) => {
   target.innerHTML = `<div class="empty-state">${message}</div>`;
+};
+
+const escapeHtml = (value) =>
+  String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+
+const inlineMarkdown = (value) =>
+  escapeHtml(value)
+    .replace(/`([^`]+)`/g, "<code>$1</code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/\[([^\]]+)]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noreferrer">$1</a>');
+
+const flushList = (html, list) => {
+  if (!list.items.length) return;
+  html.push(`<${list.type}>`, ...list.items.map((item) => `<li>${inlineMarkdown(item)}</li>`), `</${list.type}>`);
+  list.items = [];
+  list.type = null;
+};
+
+const markdownToHtml = (markdown = "") => {
+  const html = [];
+  const list = { type: null, items: [] };
+  const lines = markdown.replace(/\r\n/g, "\n").split("\n");
+  let codeBlock = null;
+
+  for (const line of lines) {
+    const fence = line.match(/^```(\w+)?\s*$/);
+    if (fence) {
+      if (codeBlock) {
+        html.push(`<pre><code>${escapeHtml(codeBlock.lines.join("\n"))}</code></pre>`);
+        codeBlock = null;
+      } else {
+        flushList(html, list);
+        codeBlock = { lang: fence[1] ?? "", lines: [] };
+      }
+      continue;
+    }
+
+    if (codeBlock) {
+      codeBlock.lines.push(line);
+      continue;
+    }
+
+    if (!line.trim()) {
+      flushList(html, list);
+      continue;
+    }
+
+    const heading = line.match(/^(#{1,3})\s+(.+)$/);
+    if (heading) {
+      flushList(html, list);
+      const level = heading[1].length + 3;
+      html.push(`<h${level}>${inlineMarkdown(heading[2])}</h${level}>`);
+      continue;
+    }
+
+    const ordered = line.match(/^\d+\.\s+(.+)$/);
+    if (ordered) {
+      if (list.type !== "ol") flushList(html, list);
+      list.type = "ol";
+      list.items.push(ordered[1]);
+      continue;
+    }
+
+    const unordered = line.match(/^-\s+(.+)$/);
+    if (unordered) {
+      if (list.type !== "ul") flushList(html, list);
+      list.type = "ul";
+      list.items.push(unordered[1]);
+      continue;
+    }
+
+    flushList(html, list);
+    html.push(`<p>${inlineMarkdown(line)}</p>`);
+  }
+
+  if (codeBlock) html.push(`<pre><code>${escapeHtml(codeBlock.lines.join("\n"))}</code></pre>`);
+  flushList(html, list);
+
+  return html.join("");
+};
+
+const loadMarkdownSource = async (item) => {
+  if (!item.source) return item;
+
+  try {
+    const response = await fetch(item.source);
+    if (!response.ok) throw new Error(`${response.status}`);
+    const markdown = await response.text();
+
+    return {
+      ...item,
+      markdown,
+      markdownHtml: markdownToHtml(markdown),
+      markdownText: markdownToText(markdown),
+    };
+  } catch (error) {
+    return {
+      ...item,
+      markdown: "",
+      markdownHtml: `<p>Markdown 正文加载失败：${escapeHtml(error.message)}</p>`,
+      markdownText: "",
+    };
+  }
+};
+
+const hydrateItems = async (items) => Promise.all(items.map(loadMarkdownSource));
+
+const renderMarkdownDetails = (item) => {
+  if (!item.markdownHtml) return null;
+
+  const details = document.createElement("details");
+  details.className = "card-details markdown-details";
+
+  const summary = document.createElement("summary");
+  summary.textContent = "查看 Markdown 正文";
+
+  const body = document.createElement("div");
+  body.className = "markdown-body";
+  body.innerHTML = item.markdownHtml;
+
+  details.append(summary, body);
+  return details;
 };
 
 const renderCard = (item) => {
@@ -82,6 +213,9 @@ const renderCard = (item) => {
       return chip;
     }),
   );
+
+  const details = renderMarkdownDetails(item);
+  if (details) node.insertBefore(details, tags);
 
   link.href = item.url || "#top";
   link.textContent = item.type === "file" ? "下载/查看" : "打开";
@@ -151,82 +285,15 @@ const bindSearch = () => {
   });
 };
 
-const parseAiAnswer = async (response) => {
-  const contentType = response.headers.get("content-type") ?? "";
-
-  if (contentType.includes("application/json")) {
-    const data = await response.json();
-    return data.answer ?? data.message ?? JSON.stringify(data, null, 2);
-  }
-
-  return response.text();
-};
-
-const setAiMessage = (message, isError = false) => {
-  dom.aiAnswer.textContent = message;
-  dom.aiAnswer.classList.toggle("error", isError);
-};
-
-const bindAiForm = () => {
-  const savedEndpoint = localStorage.getItem(AI_ENDPOINT_KEY);
-  if (savedEndpoint) dom.aiEndpoint.value = savedEndpoint;
-
-  dom.aiForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    const endpoint = dom.aiEndpoint.value.trim();
-    const question = dom.aiQuestion.value.trim();
-
-    if (!endpoint) {
-      setAiMessage("请先填写 AI 代理接口 URL。", true);
-      dom.aiEndpoint.focus();
-      return;
-    }
-
-    if (!question) {
-      setAiMessage("请先输入要发送给 AI 的问题。", true);
-      dom.aiQuestion.focus();
-      return;
-    }
-
-    localStorage.setItem(AI_ENDPOINT_KEY, endpoint);
-    setAiMessage("正在请求 AI 代理接口……");
-
-    try {
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          question,
-          context: state.data,
-        }),
-      });
-
-      const answer = await parseAiAnswer(response);
-
-      if (!response.ok) {
-        throw new Error(answer || `请求失败：${response.status}`);
-      }
-
-      setAiMessage(answer || "AI 代理接口没有返回内容。 ");
-    } catch (error) {
-      setAiMessage(`AI 请求失败：${error.message}`, true);
-    }
-  });
-};
-
 const init = async () => {
   bindSearch();
-  bindAiForm();
 
   try {
     const response = await fetch(DATA_URL);
     if (!response.ok) throw new Error(`内容数据加载失败：${response.status}`);
 
     state.data = await response.json();
-    state.items = toItems(state.data).map((item) => ({
+    state.items = (await hydrateItems(toItems(state.data))).map((item) => ({
       ...item,
       searchText: toSearchText(item),
     }));

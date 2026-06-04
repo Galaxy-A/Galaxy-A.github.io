@@ -439,6 +439,135 @@ textarea:focus {
   margin: 14px 0 18px;
 }
 
+.card-details {
+  margin: 0 0 18px;
+  padding: 12px;
+  color: var(--soft);
+  background: rgba(0, 0, 0, 0.18);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+
+.card-details summary {
+  color: var(--accent);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.card-detail-section {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.card-detail-section h4 {
+  margin: 0;
+  color: var(--accent-2);
+  font-size: 0.86rem;
+  letter-spacing: 0.08em;
+}
+
+.detail-list {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding-left: 20px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.note-list {
+  list-style-type: disc;
+}
+
+.command-list {
+  display: grid;
+  gap: 8px;
+}
+
+.command-block {
+  display: grid;
+  gap: 6px;
+}
+
+.command-block span {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.command-block code {
+  display: block;
+  padding: 10px;
+  overflow-x: auto;
+  color: #d7ffe9;
+  white-space: pre;
+  background: rgba(0, 0, 0, 0.32);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+}
+
+.markdown-body {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+  color: var(--muted);
+  line-height: 1.72;
+}
+
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin: 8px 0 0;
+  color: var(--accent-2);
+  line-height: 1.35;
+}
+
+.markdown-body p,
+.markdown-body ul,
+.markdown-body ol,
+.markdown-body pre {
+  margin: 0;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  display: grid;
+  gap: 6px;
+  padding-left: 22px;
+}
+
+.markdown-body code {
+  color: #d7ffe9;
+  font-size: 0.9em;
+}
+
+.markdown-body p code,
+.markdown-body li code,
+.markdown-body td code {
+  padding: 2px 6px;
+  background: rgba(0, 0, 0, 0.24);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 7px;
+}
+
+.markdown-body pre {
+  max-width: 100%;
+  padding: 12px;
+  overflow-x: auto;
+  background: rgba(0, 0, 0, 0.32);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+}
+
+.markdown-body pre code {
+  white-space: pre;
+}
+
+.markdown-body a {
+  color: var(--accent);
+  font-weight: 700;
+}
+
 .card-tags {
   margin-top: auto;
 }

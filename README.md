@@ -1,15 +1,14 @@
-# Galaxy-A Knowledge Base
+# Galaxy-A Blog
 
-一个可部署到 GitHub Pages 的个人博客、代码知识库和小文件索引站点。
+一个可部署到 GitHub Pages 的个人博客、工程札记和公开资料索引站点。
 
 ## 功能范围
 
 - 博客文章索引
-- 代码知识库索引
-- 10MB 以内小文件托管入口
-- 浏览器端统一搜索
+- 主题笔记索引
+- 公开小文件入口
+- 浏览器端站内搜索
 - 标签筛选
-- AI 代理接口接入
 
 ## 项目结构
 
@@ -17,9 +16,10 @@
 .
 ├── .github/workflows/   # GitHub Pages Jekyll 部署流程
 ├── _layouts/            # Jekyll 页面布局
-├── assets/files/        # 10MB 以内小文件
-├── data/content.json    # 博客、知识库、文件索引
-├── scripts/app.js       # 页面渲染、搜索、AI 代理交互
+├── assets/files/        # 10MB 以内小文件和可下载 Markdown
+├── content/notes/       # 可选的笔记 Markdown 正文
+├── data/content.json    # 文章、笔记、资料索引元数据
+├── scripts/app.js       # 页面渲染和搜索交互
 ├── styles/site.css      # 页面样式
 ├── _config.yml          # Jekyll 站点配置
 ├── Gemfile              # GitHub Pages/Jekyll 依赖
@@ -29,11 +29,12 @@
 
 ## 内容维护
 
-核心数据在 `data/content.json`：
+核心索引在 `data/content.json`，具体正文建议拆到 Markdown：
 
-- `posts`：博客文章
-- `knowledge`：代码知识库
+- `posts`：博客文章索引
+- `knowledge`：主题笔记索引
 - `files`：小文件索引
+- `source`：可选字段，指向 Markdown 正文；页面会统一加载、解析并加入搜索
 
 新增博客文章示例：
 
@@ -44,12 +45,13 @@
   "date": "2026-06-04",
   "summary": "文章摘要",
   "tags": ["GitHub Pages", "知识管理"],
-  "url": "#posts",
-  "content": "用于搜索的正文片段"
+  "url": "content/notes/my-post-id.md",
+  "source": "content/notes/my-post-id.md",
+  "content": "用于搜索的关键词和正文摘要"
 }
 ```
 
-新增代码知识库示例：
+新增主题笔记示例：
 
 ```json
 {
@@ -58,22 +60,50 @@
   "category": "Debug",
   "summary": "这条知识解决什么问题",
   "tags": ["JavaScript", "调试"],
-  "url": "#knowledge",
+  "url": "content/notes/my-note-id.md",
+  "source": "content/notes/my-note-id.md",
   "content": "用于搜索的命令、关键词或处理过程"
 }
 ```
+
+对应 Markdown 示例：
+
+````markdown
+# 排障笔记标题
+
+## 现象
+
+这里写具体问题。
+
+## 处理步骤
+
+1. 确认现象和影响范围。
+2. 按最小变量复现问题。
+3. 记录可稳定复用的处理方式。
+
+## 命令
+
+```bash
+<command>
+```
+
+## 注意事项
+
+- 不要写入真实路径、密钥、账号或 token。
+````
 
 新增小文件索引示例：
 
 ```json
 {
-  "id": "cheatsheet-pdf",
-  "title": "速查表 PDF",
-  "size": "2.4MB",
-  "kind": "pdf",
+  "id": "cheatsheet-md",
+  "title": "速查表 Markdown",
+  "size": "4KB",
+  "kind": "md",
   "summary": "文件用途说明",
-  "tags": ["速查表", "PDF"],
-  "url": "assets/files/cheatsheet.pdf",
+  "tags": ["速查表", "Markdown"],
+  "url": "assets/files/cheatsheet.md",
+  "source": "assets/files/cheatsheet.md",
   "content": "用于搜索的文件说明"
 }
 ```
@@ -101,7 +131,7 @@
 
 ## 搜索机制
 
-页面加载 `data/content.json` 后，会把以下内容合并成浏览器端搜索索引：
+页面加载 `data/content.json` 后，会继续按 `source` 加载 Markdown 正文，并把以下内容合并成浏览器端搜索索引：
 
 - 标题
 - 摘要
@@ -109,36 +139,9 @@
 - 分类
 - 文件类型和大小
 - `content` 搜索片段
+- Markdown 正文纯文本
 
 搜索不依赖后端，适合个人博客和中小规模知识库。
-
-## AI 接入
-
-页面只填写代理接口地址，不要把 OpenAI、Claude 或其他模型密钥写进前端代码。
-
-前端发送格式：
-
-```json
-{
-  "question": "用户问题",
-  "context": {
-    "site": {},
-    "posts": [],
-    "knowledge": [],
-    "files": []
-  }
-}
-```
-
-推荐代理返回格式：
-
-```json
-{
-  "answer": "AI 返回内容"
-}
-```
-
-代理服务建议放在 Cloudflare Worker、Vercel Function、Netlify Function 或自建 API 中。模型密钥只放在代理服务的环境变量里。
 
 ## GitHub Pages 部署
 
