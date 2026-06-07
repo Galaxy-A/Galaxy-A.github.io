@@ -8,8 +8,9 @@
     {% seo title=false %}
     <link rel="stylesheet" href="{{ '/styles/site.css' | relative_url }}" />
   </head>
-  <body>
+  <body id="top">
     {{ content }}
+    {% include site-footer.html %}
     <script type="module" src="{{ '/scripts/app.js' | relative_url }}"></script>
   </body>
 </html>

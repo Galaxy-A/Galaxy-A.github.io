@@ -1,21 +1,18 @@
 const DATA_URL = "/data/content.json";
 
-const state = {
-  items: [],
-  activeTag: "all",
-  query: "",
-  type: "all",
-};
-
 const dom = {
   searchInput: document.querySelector("#searchInput"),
   typeFilter: document.querySelector("#typeFilter"),
   tagCloud: document.querySelector("#tagCloud"),
   postList: document.querySelector("#postList"),
-  latestList: document.querySelector("#latestList"),
-  categoryList: document.querySelector("#categoryList"),
-  sideTagList: document.querySelector("#sideTagList"),
   cardTemplate: document.querySelector("#cardTemplate"),
+};
+
+const state = {
+  items: [],
+  query: "",
+  type: "all",
+  activeTag: "all",
 };
 
 const typeLabels = {
@@ -32,20 +29,6 @@ const toItems = (data) => [
   ...(data.files ?? []).map((item) => ({ ...item, type: "file" })),
 ].sort((a, b) => String(b.date ?? "").localeCompare(String(a.date ?? "")));
 
-const countBy = (items, getKey) =>
-  items.reduce((acc, item) => {
-    const keys = getKey(item);
-    for (const key of Array.isArray(keys) ? keys : [keys]) {
-      if (!key) continue;
-      acc.set(key, (acc.get(key) ?? 0) + 1);
-    }
-    return acc;
-  }, new Map());
-
-const flattenTags = (items) => [...countBy(items, (item) => item.tags ?? []).keys()].sort((a, b) =>
-  a.localeCompare(b, "zh-CN"),
-);
-
 const toSearchText = (item) =>
   normalize([
     item.title,
@@ -57,40 +40,11 @@ const toSearchText = (item) =>
     ...(item.tags ?? []),
   ].join(" "));
 
+const flattenTags = (items) => [...new Set(items.flatMap((item) => item.tags ?? []))].sort((a, b) =>
+  a.localeCompare(b, "zh-CN"),
+);
+
 const formatMeta = (item) => [item.date, item.category || typeLabels[item.type]].filter(Boolean).join(" | ");
-
-const setEmpty = (target, message) => {
-  target.innerHTML = `<div class="empty-state">${message}</div>`;
-};
-
-const renderPostCard = (item) => {
-  const node = dom.cardTemplate.content.firstElementChild.cloneNode(true);
-  const cover = node.querySelector(".post-cover");
-  const title = node.querySelector(".post-title");
-  const meta = node.querySelector(".post-meta");
-  const summary = node.querySelector("p");
-  const tags = node.querySelector(".card-tags");
-  const readMore = node.querySelector(".read-more");
-
-  cover.href = item.url;
-  cover.style.backgroundImage = `url("${item.cover || "/assets/images/default.svg"}")`;
-  title.href = item.url;
-  title.textContent = item.title;
-  meta.textContent = formatMeta(item);
-  summary.textContent = item.summary;
-  readMore.href = item.url;
-  readMore.textContent = item.type === "file" ? "打开资料" : "阅读全文";
-
-  tags.replaceChildren(
-    ...(item.tags ?? []).map((tag) => {
-      const chip = document.createElement("span");
-      chip.textContent = tag;
-      return chip;
-    }),
-  );
-
-  return node;
-};
 
 const filteredItems = () => {
   const query = normalize(state.query);
@@ -103,17 +57,48 @@ const filteredItems = () => {
   });
 };
 
-const renderMainList = () => {
+const setEmpty = (message) => {
+  dom.postList.innerHTML = `<div class="empty-state">${message}</div>`;
+};
+
+const renderCard = (item) => {
+  const node = dom.cardTemplate.content.firstElementChild.cloneNode(true);
+  const title = node.querySelector(".post-title");
+  const meta = node.querySelector(".post-meta");
+  const summary = node.querySelector("p");
+  const tags = node.querySelector(".card-tags");
+  const readMore = node.querySelector(".read-more");
+
+  title.href = item.url;
+  title.textContent = item.title;
+  meta.textContent = formatMeta(item);
+  summary.textContent = item.summary;
+  readMore.href = item.url;
+  readMore.textContent = item.type === "file" ? "打开资料" : "阅读全文";
+
+  tags.replaceChildren(
+    ...(item.tags ?? []).map((tag) => {
+      const chip = document.createElement("a");
+      chip.href = `/tags/#${encodeURIComponent(tag)}`;
+      chip.textContent = `#${tag}`;
+      return chip;
+    }),
+  );
+
+  return node;
+};
+
+const renderResults = () => {
   const items = filteredItems();
   if (!items.length) {
-    setEmpty(dom.postList, "没有匹配内容。可以换个关键词、类型或标签。");
+    setEmpty("没有匹配内容。");
     return;
   }
 
-  dom.postList.replaceChildren(...items.map(renderPostCard));
+  dom.postList.replaceChildren(...items.map(renderCard));
 };
 
-const renderTagCloud = () => {
+const renderTags = () => {
   const tags = ["all", ...flattenTags(state.items)];
   dom.tagCloud.replaceChildren(
     ...tags.map((tag) => {
@@ -123,87 +108,40 @@ const renderTagCloud = () => {
       button.textContent = tag === "all" ? "全部标签" : tag;
       button.addEventListener("click", () => {
         state.activeTag = tag;
-        renderTagCloud();
-        renderMainList();
+        renderTags();
+        renderResults();
       });
       return button;
     }),
   );
 };
 
-const renderLatest = () => {
-  dom.latestList.replaceChildren(
-    ...state.items.slice(0, 5).map((item) => {
-      const link = document.createElement("a");
-      link.href = item.url;
-      link.className = "mini-post";
-      link.innerHTML = `<span>${item.title}</span><small>${formatMeta(item)}</small>`;
-      return link;
-    }),
-  );
-};
-
-const renderCategories = () => {
-  const counts = [...countBy(state.items, (item) => item.category || typeLabels[item.type]).entries()].sort((a, b) =>
-    a[0].localeCompare(b[0], "zh-CN"),
-  );
-
-  dom.categoryList.replaceChildren(
-    ...counts.map(([name, count]) => {
-      const link = document.createElement("a");
-      link.href = `/categories/#${encodeURIComponent(name)}`;
-      link.innerHTML = `<span>${name}</span><strong>${count}</strong>`;
-      return link;
-    }),
-  );
-};
-
-const renderSideTags = () => {
-  const counts = [...countBy(state.items, (item) => item.tags ?? []).entries()].sort((a, b) =>
-    a[0].localeCompare(b[0], "zh-CN"),
-  );
-
-  dom.sideTagList.replaceChildren(
-    ...counts.map(([name, count]) => {
-      const link = document.createElement("a");
-      link.href = `/tags/#${encodeURIComponent(name)}`;
-      link.textContent = `${name} ${count}`;
-      return link;
-    }),
-  );
-};
-
-const bindFilters = () => {
+const bindSearch = () => {
   dom.searchInput.addEventListener("input", (event) => {
     state.query = event.target.value;
-    renderMainList();
+    renderResults();
   });
 
   dom.typeFilter.addEventListener("change", (event) => {
     state.type = event.target.value;
-    renderMainList();
+    renderResults();
   });
 };
 
 const init = async () => {
-  if (!dom.searchInput || !dom.typeFilter || !dom.cardTemplate) return;
+  if (!dom.searchInput || !dom.typeFilter || !dom.cardTemplate || !dom.postList) return;
 
-  bindFilters();
+  bindSearch();
 
   try {
     const response = await fetch(DATA_URL);
     if (!response.ok) throw new Error(`内容数据加载失败：${response.status}`);
-
     const data = await response.json();
     state.items = toItems(data).map((item) => ({ ...item, searchText: toSearchText(item) }));
-
-    renderTagCloud();
-    renderMainList();
-    renderLatest();
-    renderCategories();
-    renderSideTags();
+    renderTags();
+    renderResults();
   } catch (error) {
-    setEmpty(dom.postList, error.message);
+    setEmpty(error.message);
   }
 };
 

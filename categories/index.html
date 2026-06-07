@@ -1,27 +1,33 @@
 ---
-layout: page
+layout: default
 title: 分类
-description: 按主题分类浏览 Galaxy-A Blog 内容。
+description: 按分类查看内容。
 ---
 {% assign all_items = site.data.content.posts | concat: site.data.content.knowledge | concat: site.data.content.files %}
 {% assign categories = all_items | map: 'category' | uniq | sort %}
-<div class="taxonomy-page-list">
-  {% for category in categories %}
-    <section id="{{ category | uri_escape }}" class="taxonomy-section">
-      <h2>{{ category }}</h2>
-      <div class="archive-list compact">
+{% include site-header.html %}
+<main class="shell blog-layout">
+  <section class="taxonomy-main">
+    <header class="archive-head"><h1>分类</h1></header>
+    <div class="taxonomy-cloud">
+      {% for category in categories %}
+        <a href="#{{ category | uri_escape }}">{{ category }}</a>
+      {% endfor %}
+    </div>
+    {% for category in categories %}
+      <section id="{{ category | uri_escape }}" class="taxonomy-section">
+        <h2>{{ category }}</h2>
         {% for item in all_items %}
           {% if item.category == category %}
-            <article class="archive-item">
+            <a class="taxonomy-post" href="{{ item.url | relative_url }}">
+              <span>{{ item.title }}</span>
               <time>{{ item.date }}</time>
-              <div>
-                <h3><a href="{{ item.url | relative_url }}">{{ item.title }}</a></h3>
-                <p>{{ item.summary }}</p>
-              </div>
-            </article>
+            </a>
           {% endif %}
         {% endfor %}
-      </div>
-    </section>
-  {% endfor %}
-</div>
+      </section>
+    {% endfor %}
+  </section>
+
+  {% include sidebar.html %}
+</main>

@@ -1,17 +1,46 @@
 ---
-layout: page
-title: 文章归档
-description: Galaxy-A Blog 的时间线归档。
+layout: default
+title: 归档
+description: 全部文章时间线。
 ---
 {% assign all_items = site.data.content.posts | concat: site.data.content.knowledge | concat: site.data.content.files | sort: 'date' | reverse %}
-<div class="archive-list">
-  {% for item in all_items %}
-    <article class="archive-item">
-      <time>{{ item.date }}</time>
-      <div>
-        <h2><a href="{{ item.url | relative_url }}">{{ item.title }}</a></h2>
-        <p>{{ item.summary }}</p>
-      </div>
-    </article>
-  {% endfor %}
-</div>
+{% assign years = all_items | map: 'year' | uniq | sort | reverse %}
+{% include site-header.html %}
+<main class="shell blog-layout">
+  <section class="archive-main">
+    <header class="archive-head">
+      <h1>归档</h1>
+      <p>全部文章 - {{ all_items | size }}</p>
+    </header>
+    <div class="archive-timeline">
+      {% for year in years %}
+        <section class="archive-year">
+          <h2>{{ year }}</h2>
+          <div class="archive-list">
+            {% for item in all_items %}
+              {% if item.year == year %}
+                <article class="archive-item">
+                  <a class="archive-thumb" href="{{ item.url | relative_url }}" title="{{ item.title }}">
+                    <img src="{{ item.cover | relative_url }}" alt="{{ item.title }}" />
+                  </a>
+                  <div class="archive-item-body">
+                    <time datetime="{{ item.date }}">{{ item.date }}</time>
+                    <h3><a href="{{ item.url | relative_url }}">{{ item.title }}</a></h3>
+                    <div class="archive-item-meta">
+                      {% if item.category %}<a href="{{ '/categories/' | relative_url }}#{{ item.category | uri_escape }}">{{ item.category }}</a>{% endif %}
+                      {% if item.tags %}
+                        {% for tag in item.tags limit: 3 %}<a href="{{ '/tags/' | relative_url }}#{{ tag | uri_escape }}">#{{ tag }}</a>{% endfor %}
+                      {% endif %}
+                    </div>
+                  </div>
+                </article>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </section>
+      {% endfor %}
+    </div>
+  </section>
+
+  {% include sidebar.html %}
+</main>

@@ -3,87 +3,33 @@ layout: default
 title: Galaxy-A Blog
 description: Galaxy-A 的个人博客、工程札记与公开资料索引。
 ---
-<div class="site-frame">
-  <header class="site-header">
-    <div class="shell header-inner">
-      <a class="brand" href="{{ '/' | relative_url }}" aria-label="返回首页">
-        <span class="brand-mark">G</span>
-        <span>Galaxy-A</span>
-      </a>
-      <nav class="nav-links" aria-label="主导航">
-        <a href="{{ '/' | relative_url }}">首页</a>
-        <a href="{{ '/archives/' | relative_url }}">归档</a>
-        <a href="{{ '/categories/' | relative_url }}">分类</a>
-        <a href="{{ '/tags/' | relative_url }}">标签</a>
-        <a href="{{ '/about/' | relative_url }}">关于</a>
-      </nav>
-    </div>
-  </header>
+{% assign main_items = site.data.content.posts | concat: site.data.content.knowledge | concat: site.data.content.files | sort: 'date' | reverse %}
+{% include site-header.html %}
 
-  <main class="shell blog-layout">
-    <section class="post-stream" aria-labelledby="streamTitle">
-      <div class="stream-heading">
-        <p class="eyebrow">Galaxy-A Blog</p>
-        <h1 id="streamTitle">最新文章</h1>
-        <p>记录工程实践、长期思考和公开资料。首页保持文章流，正文进入独立页面阅读。</p>
-      </div>
+<main class="shell blog-layout">
+  <section class="post-stream" aria-label="文章列表">
+    {% for item in main_items %}
+      <article class="index-post">
+        <a class="index-cover" href="{{ item.url | relative_url }}" title="{{ item.title }}">
+          <img src="{{ item.cover | relative_url }}" alt="{{ item.title }}" />
+        </a>
+        <div class="index-body">
+          <h2><a href="{{ item.url | relative_url }}">{{ item.title }}</a></h2>
+          <div class="post-meta">
+            {% if item.date %}<span>发表于{{ item.date }}</span>{% endif %}
+            {% if item.category %}<span>|</span><a href="{{ '/categories/' | relative_url }}#{{ item.category | uri_escape }}">{{ item.category }}</a>{% endif %}
+          </div>
+          <p>{{ item.summary }}</p>
+          {% if item.tags %}
+            <div class="post-tags">
+              {% for tag in item.tags %}<a href="{{ '/tags/' | relative_url }}#{{ tag | uri_escape }}">#{{ tag }}</a>{% endfor %}
+            </div>
+          {% endif %}
+          <a class="read-more" href="{{ item.url | relative_url }}">阅读全文</a>
+        </div>
+      </article>
+    {% endfor %}
+  </section>
 
-      <div class="search-card" role="search">
-        <input id="searchInput" type="search" placeholder="搜索文章、笔记、资料、标签……" autocomplete="off" />
-        <select id="typeFilter" aria-label="内容类型筛选">
-          <option value="all">全部</option>
-          <option value="post">文章</option>
-          <option value="knowledge">笔记</option>
-          <option value="file">资料</option>
-        </select>
-      </div>
-
-      <div id="tagCloud" class="tag-cloud" aria-label="标签筛选"></div>
-      <div id="postList" class="article-list"></div>
-    </section>
-
-    <aside class="sidebar" aria-label="侧边栏">
-      <section class="sidebar-card profile-card">
-        <img class="avatar" src="{{ '/assets/images/avatar.svg' | relative_url }}" alt="Galaxy-A 头像" />
-        <h2>Galaxy-A</h2>
-        <p>Software Engineer · Engineering Notes · Long-term Thinking</p>
-        <a class="follow-link" href="https://github.com/Galaxy-A" target="_blank" rel="noreferrer">Follow Me</a>
-      </section>
-
-      <section class="sidebar-card">
-        <h2>最新文章</h2>
-        <div id="latestList" class="mini-post-list"></div>
-      </section>
-
-      <section class="sidebar-card">
-        <h2>分类</h2>
-        <div id="categoryList" class="taxonomy-list"></div>
-      </section>
-
-      <section class="sidebar-card">
-        <h2>标签</h2>
-        <div id="sideTagList" class="side-tags"></div>
-      </section>
-    </aside>
-  </main>
-
-  <footer class="site-footer">
-    <div class="shell footer-inner">
-      <span>Galaxy-A Blog</span>
-      <span>Powered by GitHub Pages · Jekyll</span>
-    </div>
-  </footer>
-</div>
-
-<template id="cardTemplate">
-  <article class="post-card">
-    <a class="post-cover" aria-hidden="true" tabindex="-1"></a>
-    <div class="post-content">
-      <h2><a class="post-title"></a></h2>
-      <div class="post-meta"></div>
-      <p></p>
-      <div class="card-tags"></div>
-      <a class="read-more">阅读全文</a>
-    </div>
-  </article>
-</template>
+  {% include sidebar.html %}
+</main>

@@ -3,8 +3,11 @@ layout: article
 title: 前端站点接入 AI 时的安全边界
 type: Post
 date_label: 2026-06-04
+updated: 2026-06-07
 category: AI
 summary: 记录公开前端页面接入 AI 能力时，哪些东西应该留在后端边界之后。
+words: 1.2k
+views: 98
 tags:
   - AI
   - 安全

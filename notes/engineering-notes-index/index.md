@@ -2,8 +2,12 @@
 layout: article
 title: 工程札记索引
 type: Notes
+date_label: 2026-06-04
+updated: 2026-06-07
 category: Engineering
 summary: 把零散的问题复盘、工具体验和架构判断沉淀成可回看的短笔记。
+words: 860
+views: 76
 tags:
   - 工程札记
   - 复盘

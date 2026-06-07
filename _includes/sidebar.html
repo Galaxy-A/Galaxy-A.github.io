@@ -1,0 +1,86 @@
+{% assign all_items = site.data.content.posts | concat: site.data.content.knowledge | concat: site.data.content.files %}
+{% assign latest_posts = site.data.content.posts | slice: 0, 5 %}
+{% assign categories = all_items | group_by: 'category' | sort: 'name' %}
+{% assign all_tags = '' | split: '' %}
+{% for item in all_items %}
+  {% assign all_tags = all_tags | concat: item.tags %}
+{% endfor %}
+{% assign tags = all_tags | uniq | sort %}
+<aside class="sidebar" aria-label="侧边栏">
+  <section class="sidebar-card profile-card">
+    <img class="avatar" src="{{ site.data.content.site.avatar | relative_url }}" alt="{{ site.data.content.site.owner }} 头像" />
+    <h2>{{ site.data.content.site.owner }}</h2>
+    <p>{{ site.data.content.site.bio }}</p>
+    <div class="profile-stats">
+      <a href="{{ '/archives/' | relative_url }}"><span>文章</span><strong>{{ all_items | size }}</strong></a>
+      <a href="{{ '/tags/' | relative_url }}"><span>标签</span><strong>{{ tags | size }}</strong></a>
+      <a href="{{ '/categories/' | relative_url }}"><span>分类</span><strong>{{ categories | size }}</strong></a>
+    </div>
+    <a class="follow-link" href="{{ site.data.content.site.github }}" target="_blank" rel="noreferrer">Follow Me</a>
+    <a class="icon-link" href="{{ site.data.content.site.github }}" target="_blank" rel="noreferrer">Github</a>
+  </section>
+
+  <section class="sidebar-card notice-card">
+    <h2>公告</h2>
+    <p>{{ site.data.content.site.notice }}</p>
+  </section>
+
+  <section class="sidebar-card">
+    <div class="sidebar-title-row">
+      <h2>最新文章</h2>
+      <a href="{{ '/archives/' | relative_url }}">查看更多</a>
+    </div>
+    <div class="latest-list">
+      {% for post in latest_posts %}
+        <article class="latest-item">
+          <a href="{{ post.url | relative_url }}" title="{{ post.title }}"><img src="{{ post.cover | relative_url }}" alt="{{ post.title }}" /></a>
+          <div>
+            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+            <time>{{ post.date }}</time>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="sidebar-card">
+    <div class="sidebar-title-row">
+      <h2>分类</h2>
+      <a href="{{ '/categories/' | relative_url }}">查看更多</a>
+    </div>
+    <ul class="count-list">
+      {% for category in categories %}
+        <li><a href="{{ '/categories/' | relative_url }}#{{ category.name | uri_escape }}"><span>{{ category.name }}</span><strong>{{ category.items | size }}</strong></a></li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section class="sidebar-card">
+    <h2>标签</h2>
+    <div class="sidebar-tags">
+      {% for tag in tags %}
+        <a href="{{ '/tags/' | relative_url }}#{{ tag | uri_escape }}">{{ tag }}</a>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="sidebar-card">
+    <h2>归档</h2>
+    <ul class="count-list">
+      {% assign years = all_items | group_by: 'year' | sort: 'name' | reverse %}
+      {% for year in years %}
+        <li><a href="{{ '/archives/' | relative_url }}#year-{{ year.name }}"><span>{{ year.name }}</span><strong>{{ year.items | size }}</strong></a></li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section class="sidebar-card site-info-card">
+    <h2>网站信息</h2>
+    <dl>
+      <div><dt>文章数目 :</dt><dd>{{ all_items | size }}</dd></div>
+      <div><dt>本站访客数 :</dt><dd>{{ site.data.content.site.visitors }}</dd></div>
+      <div><dt>本站总浏览量 :</dt><dd>{{ site.data.content.site.views }}</dd></div>
+      <div><dt>最后更新时间 :</dt><dd>{{ site.data.content.site.updated }}</dd></div>
+    </dl>
+  </section>
+</aside>

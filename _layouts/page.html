@@ -1,40 +1,17 @@
 ---
 layout: default
 ---
-<div class="site-frame">
-  <header class="site-header">
-    <div class="shell header-inner">
-      <a class="brand" href="{{ '/' | relative_url }}" aria-label="返回首页">
-        <span class="brand-mark">G</span>
-        <span>Galaxy-A</span>
-      </a>
-      <nav class="nav-links" aria-label="主导航">
-        <a href="{{ '/' | relative_url }}">首页</a>
-        <a href="{{ '/archives/' | relative_url }}">归档</a>
-        <a href="{{ '/categories/' | relative_url }}">分类</a>
-        <a href="{{ '/tags/' | relative_url }}">标签</a>
-        <a href="{{ '/about/' | relative_url }}">关于</a>
-      </nav>
+{% include site-header.html %}
+<main class="shell blog-layout">
+  <article class="page-main">
+    <header class="page-title">
+      <h1>{{ page.title }}</h1>
+      {% if page.description %}<p>{{ page.description }}</p>{% endif %}
+    </header>
+    <div class="markdown-body">
+      {{ content }}
     </div>
-  </header>
+  </article>
 
-  <main class="shell page-shell">
-    <article class="page-card">
-      <header class="page-header">
-        <p class="eyebrow">Galaxy-A Blog</p>
-        <h1>{{ page.title }}</h1>
-        {% if page.description %}<p>{{ page.description }}</p>{% endif %}
-      </header>
-      <div class="page-body markdown-body">
-        {{ content }}
-      </div>
-    </article>
-  </main>
-
-  <footer class="site-footer">
-    <div class="shell footer-inner">
-      <span>Galaxy-A Blog</span>
-      <span>Essays · Notes · Archive</span>
-    </div>
-  </footer>
-</div>
+  {% include sidebar.html %}
+</main>

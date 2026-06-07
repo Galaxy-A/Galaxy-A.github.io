@@ -2,9 +2,13 @@
 layout: article
 title: 公开资料说明
 type: Archive
+date_label: 2026-06-04
+updated: 2026-06-07
 category: 资料
 kind: txt
 summary: 说明公开资料目录的用途和文件大小约束。
+words: 540
+views: 51
 tags:
   - 说明
   - 资料

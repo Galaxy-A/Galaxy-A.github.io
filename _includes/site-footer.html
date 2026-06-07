@@ -1,0 +1,23 @@
+{% assign all_items = site.data.content.posts | concat: site.data.content.knowledge | concat: site.data.content.files %}
+<footer class="site-footer">
+  <div class="shell footer-inner">
+    <div class="footer-brand">
+      <strong>{{ site.data.content.site.title }}</strong>
+      <span>{{ site.data.content.site.description }}</span>
+    </div>
+    <div class="footer-stats" aria-label="站点统计">
+      <span>运行 {{ site.data.content.site.running_days }} 天</span>
+      <span>文章 {{ all_items | size }}</span>
+      <span>字数 {{ site.data.content.site.words }}</span>
+      <span>访问 {{ site.data.content.site.visitors }}</span>
+    </div>
+    <div class="footer-powered">
+      <span>© {{ site.time | date: '%Y' }} {{ site.data.content.site.owner }}</span>
+      <span>Powered by Jekyll · GitHub Pages</span>
+    </div>
+  </div>
+</footer>
+<div class="floating-tools" aria-label="页面工具">
+  <a href="#top" title="返回顶部">↑</a>
+  <a href="{{ '/search/' | relative_url }}" title="搜索">⌕</a>
+</div>

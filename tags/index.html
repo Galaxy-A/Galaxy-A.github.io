@@ -1,7 +1,7 @@
 ---
-layout: page
+layout: default
 title: 标签
-description: 按标签浏览 Galaxy-A Blog 内容。
+description: 按标签查看内容。
 ---
 {% assign all_items = site.data.content.posts | concat: site.data.content.knowledge | concat: site.data.content.files %}
 {% assign tags = '' | split: '' %}
@@ -9,23 +9,29 @@ description: 按标签浏览 Galaxy-A Blog 内容。
   {% assign tags = tags | concat: item.tags %}
 {% endfor %}
 {% assign tags = tags | uniq | sort %}
-<div class="taxonomy-page-list">
-  {% for tag in tags %}
-    <section id="{{ tag | uri_escape }}" class="taxonomy-section">
-      <h2>{{ tag }}</h2>
-      <div class="archive-list compact">
+{% include site-header.html %}
+<main class="shell blog-layout">
+  <section class="taxonomy-main">
+    <header class="archive-head"><h1>标签</h1></header>
+    <div class="taxonomy-cloud">
+      {% for tag in tags %}
+        <a href="#{{ tag | uri_escape }}">{{ tag }}</a>
+      {% endfor %}
+    </div>
+    {% for tag in tags %}
+      <section id="{{ tag | uri_escape }}" class="taxonomy-section">
+        <h2>{{ tag }}</h2>
         {% for item in all_items %}
           {% if item.tags contains tag %}
-            <article class="archive-item">
+            <a class="taxonomy-post" href="{{ item.url | relative_url }}">
+              <span>{{ item.title }}</span>
               <time>{{ item.date }}</time>
-              <div>
-                <h3><a href="{{ item.url | relative_url }}">{{ item.title }}</a></h3>
-                <p>{{ item.summary }}</p>
-              </div>
-            </article>
+            </a>
           {% endif %}
         {% endfor %}
-      </div>
-    </section>
-  {% endfor %}
-</div>
+      </section>
+    {% endfor %}
+  </section>
+
+  {% include sidebar.html %}
+</main>

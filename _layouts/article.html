@@ -1,51 +1,29 @@
 ---
 layout: default
 ---
-<div class="site-frame">
-  <header class="site-header">
-    <div class="shell header-inner">
-      <a class="brand" href="{{ '/' | relative_url }}" aria-label="返回首页">
-        <span class="brand-mark">G</span>
-        <span>Galaxy-A</span>
-      </a>
-      <nav class="nav-links" aria-label="文章导航">
-        <a href="{{ '/' | relative_url }}">首页</a>
-        <a href="{{ '/archives/' | relative_url }}">归档</a>
-        <a href="{{ '/categories/' | relative_url }}">分类</a>
-        <a href="{{ '/tags/' | relative_url }}">标签</a>
-        <a href="{{ '/about/' | relative_url }}">关于</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="shell article-shell">
-    <article class="article-card">
-      <header class="article-header">
-        <p class="eyebrow">{{ page.type | default: 'Post' }}</p>
-        <h1>{{ page.title }}</h1>
-        {% if page.summary %}<p class="article-summary">{{ page.summary }}</p>{% endif %}
-        <div class="article-meta">
-          {% if page.date_label %}<span>{{ page.date_label }}</span>{% endif %}
-          {% if page.category %}<span>{{ page.category }}</span>{% endif %}
-          {% if page.kind %}<span>{{ page.kind }}</span>{% endif %}
-        </div>
-        {% if page.tags %}
-          <div class="card-tags article-tags">
-            {% for tag in page.tags %}<span>{{ tag }}</span>{% endfor %}
-          </div>
-        {% endif %}
-      </header>
-
-      <div class="markdown-body article-body">
-        {{ content }}
+{% include site-header.html %}
+<main class="shell blog-layout">
+  <article class="article-detail">
+    <header class="article-hero">
+      <h1>{{ page.title }}</h1>
+      <div class="article-meta-grid" aria-label="文章信息">
+        {% if page.date_label %}<span>发表于 {{ page.date_label }}</span>{% endif %}
+        {% if page.updated %}<span>更新于 {{ page.updated }}</span>{% endif %}
+        {% if page.category %}<a href="{{ '/categories/' | relative_url }}#{{ page.category | uri_escape }}">{{ page.category }}</a>{% endif %}
+        {% if page.words %}<span>字数 {{ page.words }}</span>{% endif %}
+        {% if page.views %}<span>阅读 {{ page.views }}</span>{% endif %}
       </div>
-    </article>
-  </main>
-
-  <footer class="site-footer">
-    <div class="shell footer-inner">
-      <span>Galaxy-A Blog</span>
-      <span><a href="{{ '/' | relative_url }}">返回首页</a></span>
+      {% if page.summary %}<p class="article-summary">{{ page.summary }}</p>{% endif %}
+      {% if page.tags %}
+        <div class="post-tags">
+          {% for tag in page.tags %}<a href="{{ '/tags/' | relative_url }}#{{ tag | uri_escape }}">#{{ tag }}</a>{% endfor %}
+        </div>
+      {% endif %}
+    </header>
+    <div class="markdown-body">
+      {{ content }}
     </div>
-  </footer>
-</div>
+  </article>
+
+  {% include sidebar.html %}
+</main>

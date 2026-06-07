@@ -2,8 +2,12 @@
 layout: article
 title: 阅读与观察
 type: Notes
+date_label: 2026-06-04
+updated: 2026-06-07
 category: Notes
 summary: 记录读书摘录、产品观察、技术趋势和日常思考。
+words: 720
+views: 64
 tags:
   - 读书
   - 观察

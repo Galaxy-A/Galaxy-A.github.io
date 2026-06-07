@@ -3,8 +3,11 @@ layout: article
 title: 用 GitHub Pages 搭建个人站点
 type: Post
 date_label: 2026-06-04
+updated: 2026-06-07
 category: 工程实践
 summary: 记录一次把个人主页做成静态站点的过程：页面、内容索引、自动部署和长期维护。
+words: 1.7k
+views: 121
 tags:
   - GitHub Pages
   - 静态站点

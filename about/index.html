@@ -1,15 +1,24 @@
 ---
-layout: page
+layout: default
 title: 关于
 description: 关于 Galaxy-A Blog。
 ---
-<div class="about-card">
-  <img class="avatar large" src="{{ '/assets/images/avatar.svg' | relative_url }}" alt="Galaxy-A 头像" />
-  <div>
-    <p class="eyebrow">About</p>
-    <h2>Galaxy-A</h2>
-    <p>这个站点用于长期记录工程实践、项目复盘、阅读观察和公开资料。结构上参考传统博客：首页是文章流，分类、标签和归档用于回看，正文在独立页面中完整阅读。</p>
-    <p>内容会优先保持可维护：少做一次性装饰，多保留能被未来自己重新理解的上下文。</p>
-    <a class="follow-link" href="https://github.com/Galaxy-A" target="_blank" rel="noreferrer">GitHub</a>
-  </div>
-</div>
+{% include site-header.html %}
+<main class="shell blog-layout">
+  <section class="page-main">
+    <header class="page-title">
+      <h1>关于</h1>
+    </header>
+    <div class="about-panel">
+      <img class="avatar large" src="{{ '/assets/images/avatar.svg' | relative_url }}" alt="Galaxy-A 头像" />
+      <div class="markdown-body">
+        <h2>Galaxy-A</h2>
+        <p>这个站点用于长期记录工程实践、项目复盘、阅读观察和公开资料。结构上对齐传统博客：主页是文章流，归档按年份回看，分类和标签用于主题导航，正文在独立页面完整阅读。</p>
+        <p>内容优先保持可维护：少做一次性装饰，多保留能被未来重新理解的上下文。</p>
+        <p><a href="https://github.com/Galaxy-A" target="_blank" rel="noreferrer">GitHub</a></p>
+      </div>
+    </div>
+  </section>
+
+  {% include sidebar.html %}
+</main>
