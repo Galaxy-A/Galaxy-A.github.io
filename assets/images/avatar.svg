@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Galaxy-A avatar">
+  <rect width="240" height="240" rx="56" fill="#111827"/>
+  <circle cx="120" cy="120" r="76" fill="#22c55e" opacity="0.18"/>
+  <text x="120" y="146" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="86" font-weight="700">G</text>
+</svg>

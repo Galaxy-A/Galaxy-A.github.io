@@ -3,103 +3,87 @@ layout: default
 title: Galaxy-A Blog
 description: Galaxy-A 的个人博客、工程札记与公开资料索引。
 ---
-<div class="shell">
-      <header class="hero">
-        <nav class="topbar" aria-label="主导航">
-          <a class="brand" href="#top" aria-label="返回首页">
-            <span class="brand-mark">G</span>
-            <span>Galaxy-A</span>
-          </a>
-          <div class="nav-links">
-            <a href="#posts">文章</a>
-            <a href="#knowledge">笔记</a>
-            <a href="#files">资料</a>
-            <a href="#search">搜索</a>
-          </div>
-        </nav>
-
-        <section id="top" class="hero-grid">
-          <div class="hero-copy">
-            <p class="eyebrow">Personal Blog · Notes · Archive</p>
-            <h1>记录工程实践、长期思考和一点点日常观察。</h1>
-            <p class="hero-text">
-              这里是 Galaxy-A 的个人主页。文章按时间沉淀，笔记按主题整理，公开资料只作为补充入口；页面保持静态、轻量、可搜索。
-            </p>
-            <div class="hero-actions">
-              <a class="button primary" href="#posts">阅读文章</a>
-              <a class="button ghost" href="#search">搜索内容</a>
-            </div>
-          </div>
-          <aside class="status-card" aria-label="站点信息">
-            <div class="status-line"><span>站点</span><strong>Blog</strong></div>
-            <div class="status-line"><span>主题</span><strong>工程 / 思考</strong></div>
-            <div class="status-line"><span>资料</span><strong>公开索引</strong></div>
-            <div class="status-line"><span>搜索</span><strong>本地完成</strong></div>
-          </aside>
-        </section>
-      </header>
-
-      <main>
-        <section id="search" class="panel search-panel">
-          <div class="section-heading">
-            <p class="eyebrow">Search</p>
-            <h2>站内搜索</h2>
-            <p>按标题、摘要、标签、主题和公开资料说明检索站内内容。</p>
-          </div>
-          <div class="search-box">
-            <input id="searchInput" type="search" placeholder="搜索：GitHub Pages、工程实践、部署、读书、工具……" autocomplete="off" />
-            <select id="typeFilter" aria-label="内容类型筛选">
-              <option value="all">全部类型</option>
-              <option value="post">文章</option>
-              <option value="knowledge">笔记</option>
-              <option value="file">资料</option>
-            </select>
-          </div>
-          <div id="tagCloud" class="tag-cloud" aria-label="标签筛选"></div>
-          <div id="results" class="result-grid" aria-live="polite"></div>
-        </section>
-
-        <section id="posts" class="panel split-panel">
-          <div class="section-heading">
-            <p class="eyebrow">Posts</p>
-            <h2>最新文章</h2>
-            <p>按时间记录项目复盘、工程实践和长期思考。</p>
-          </div>
-          <div id="postList" class="content-list"></div>
-        </section>
-
-        <section id="knowledge" class="panel split-panel">
-          <div class="section-heading">
-            <p class="eyebrow">Notes</p>
-            <h2>主题笔记</h2>
-            <p>整理公开的工程札记、读书摘录、工具经验和长期观察。</p>
-          </div>
-          <div id="knowledgeList" class="content-list"></div>
-        </section>
-
-        <section id="files" class="panel split-panel">
-          <div class="section-heading">
-            <p class="eyebrow">Archive</p>
-            <h2>公开资料</h2>
-            <p>放置可公开分享的小文件、说明文档和轻量资料索引。</p>
-          </div>
-          <div id="fileList" class="content-list file-list"></div>
-        </section>
-
-      </main>
-
-      <footer class="footer">
-        <span>Galaxy-A Blog</span>
-        <span>Essays · Notes · Archive</span>
-      </footer>
+<div class="site-frame">
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="{{ '/' | relative_url }}" aria-label="返回首页">
+        <span class="brand-mark">G</span>
+        <span>Galaxy-A</span>
+      </a>
+      <nav class="nav-links" aria-label="主导航">
+        <a href="{{ '/' | relative_url }}">首页</a>
+        <a href="{{ '/archives/' | relative_url }}">归档</a>
+        <a href="{{ '/categories/' | relative_url }}">分类</a>
+        <a href="{{ '/tags/' | relative_url }}">标签</a>
+        <a href="{{ '/about/' | relative_url }}">关于</a>
+      </nav>
     </div>
+  </header>
 
-    <template id="cardTemplate">
-      <article class="card">
-        <div class="card-meta"></div>
-        <h3></h3>
-        <p></p>
-        <div class="card-tags"></div>
-        <a class="card-link" target="_blank" rel="noreferrer">打开</a>
-      </article>
-    </template>
+  <main class="shell blog-layout">
+    <section class="post-stream" aria-labelledby="streamTitle">
+      <div class="stream-heading">
+        <p class="eyebrow">Galaxy-A Blog</p>
+        <h1 id="streamTitle">最新文章</h1>
+        <p>记录工程实践、长期思考和公开资料。首页保持文章流，正文进入独立页面阅读。</p>
+      </div>
+
+      <div class="search-card" role="search">
+        <input id="searchInput" type="search" placeholder="搜索文章、笔记、资料、标签……" autocomplete="off" />
+        <select id="typeFilter" aria-label="内容类型筛选">
+          <option value="all">全部</option>
+          <option value="post">文章</option>
+          <option value="knowledge">笔记</option>
+          <option value="file">资料</option>
+        </select>
+      </div>
+
+      <div id="tagCloud" class="tag-cloud" aria-label="标签筛选"></div>
+      <div id="postList" class="article-list"></div>
+    </section>
+
+    <aside class="sidebar" aria-label="侧边栏">
+      <section class="sidebar-card profile-card">
+        <img class="avatar" src="{{ '/assets/images/avatar.svg' | relative_url }}" alt="Galaxy-A 头像" />
+        <h2>Galaxy-A</h2>
+        <p>Software Engineer · Engineering Notes · Long-term Thinking</p>
+        <a class="follow-link" href="https://github.com/Galaxy-A" target="_blank" rel="noreferrer">Follow Me</a>
+      </section>
+
+      <section class="sidebar-card">
+        <h2>最新文章</h2>
+        <div id="latestList" class="mini-post-list"></div>
+      </section>
+
+      <section class="sidebar-card">
+        <h2>分类</h2>
+        <div id="categoryList" class="taxonomy-list"></div>
+      </section>
+
+      <section class="sidebar-card">
+        <h2>标签</h2>
+        <div id="sideTagList" class="side-tags"></div>
+      </section>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>Galaxy-A Blog</span>
+      <span>Powered by GitHub Pages · Jekyll</span>
+    </div>
+  </footer>
+</div>
+
+<template id="cardTemplate">
+  <article class="post-card">
+    <a class="post-cover" aria-hidden="true" tabindex="-1"></a>
+    <div class="post-content">
+      <h2><a class="post-title"></a></h2>
+      <div class="post-meta"></div>
+      <p></p>
+      <div class="card-tags"></div>
+      <a class="read-more">阅读全文</a>
+    </div>
+  </article>
+</template>

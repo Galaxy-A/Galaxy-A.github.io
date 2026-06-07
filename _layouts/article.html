@@ -1,0 +1,51 @@
+---
+layout: default
+---
+<div class="site-frame">
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="{{ '/' | relative_url }}" aria-label="返回首页">
+        <span class="brand-mark">G</span>
+        <span>Galaxy-A</span>
+      </a>
+      <nav class="nav-links" aria-label="文章导航">
+        <a href="{{ '/' | relative_url }}">首页</a>
+        <a href="{{ '/archives/' | relative_url }}">归档</a>
+        <a href="{{ '/categories/' | relative_url }}">分类</a>
+        <a href="{{ '/tags/' | relative_url }}">标签</a>
+        <a href="{{ '/about/' | relative_url }}">关于</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="shell article-shell">
+    <article class="article-card">
+      <header class="article-header">
+        <p class="eyebrow">{{ page.type | default: 'Post' }}</p>
+        <h1>{{ page.title }}</h1>
+        {% if page.summary %}<p class="article-summary">{{ page.summary }}</p>{% endif %}
+        <div class="article-meta">
+          {% if page.date_label %}<span>{{ page.date_label }}</span>{% endif %}
+          {% if page.category %}<span>{{ page.category }}</span>{% endif %}
+          {% if page.kind %}<span>{{ page.kind }}</span>{% endif %}
+        </div>
+        {% if page.tags %}
+          <div class="card-tags article-tags">
+            {% for tag in page.tags %}<span>{{ tag }}</span>{% endfor %}
+          </div>
+        {% endif %}
+      </header>
+
+      <div class="markdown-body article-body">
+        {{ content }}
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>Galaxy-A Blog</span>
+      <span><a href="{{ '/' | relative_url }}">返回首页</a></span>
+    </div>
+  </footer>
+</div>

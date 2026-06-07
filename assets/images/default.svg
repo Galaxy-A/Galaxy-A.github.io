@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Default article cover">
+  <rect width="1200" height="630" fill="#f4f6fb"/>
+  <path d="M0 470 C220 390 330 570 520 490 S860 330 1200 430 V630 H0 Z" fill="#dbeafe"/>
+  <path d="M0 520 C260 440 390 620 600 530 S900 420 1200 500 V630 H0 Z" fill="#bfdbfe"/>
+  <text x="80" y="300" fill="#1f2937" font-family="Arial, sans-serif" font-size="76" font-weight="700">Galaxy-A</text>
+  <text x="84" y="374" fill="#4b5563" font-family="Arial, sans-serif" font-size="32">Notes for long-term work</text>
+</svg>

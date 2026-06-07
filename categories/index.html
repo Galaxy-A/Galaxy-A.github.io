@@ -1,0 +1,27 @@
+---
+layout: page
+title: 分类
+description: 按主题分类浏览 Galaxy-A Blog 内容。
+---
+{% assign all_items = site.data.content.posts | concat: site.data.content.knowledge | concat: site.data.content.files %}
+{% assign categories = all_items | map: 'category' | uniq | sort %}
+<div class="taxonomy-page-list">
+  {% for category in categories %}
+    <section id="{{ category | uri_escape }}" class="taxonomy-section">
+      <h2>{{ category }}</h2>
+      <div class="archive-list compact">
+        {% for item in all_items %}
+          {% if item.category == category %}
+            <article class="archive-item">
+              <time>{{ item.date }}</time>
+              <div>
+                <h3><a href="{{ item.url | relative_url }}">{{ item.title }}</a></h3>
+                <p>{{ item.summary }}</p>
+              </div>
+            </article>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </section>
+  {% endfor %}
+</div>

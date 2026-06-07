@@ -1,0 +1,17 @@
+---
+layout: page
+title: 文章归档
+description: Galaxy-A Blog 的时间线归档。
+---
+{% assign all_items = site.data.content.posts | concat: site.data.content.knowledge | concat: site.data.content.files | sort: 'date' | reverse %}
+<div class="archive-list">
+  {% for item in all_items %}
+    <article class="archive-item">
+      <time>{{ item.date }}</time>
+      <div>
+        <h2><a href="{{ item.url | relative_url }}">{{ item.title }}</a></h2>
+        <p>{{ item.summary }}</p>
+      </div>
+    </article>
+  {% endfor %}
+</div>
