@@ -1,0 +1,100 @@
+{
+  "site": {
+    "title": "Galaxy-A Blog",
+    "owner": "Galaxy-A",
+    "description": "个人博客、工程札记与公开资料索引。",
+    "bio": "Software Engineer · Engineering Notes · Long-term Thinking",
+    "notice": "即使再小的帆也能远航 ⛵",
+    "avatar": "/assets/images/avatar.svg",
+    "github": "https://github.com/Galaxy-A",
+    "visitors": "5995",
+    "views": "10778",
+    "updated": "刚刚",
+    "created": "2026-06-04",
+    "running_days": "3",
+    "words": "8.2k"
+  },
+  "posts": [
+    {
+      "id": "github-pages-static-kb",
+      "title": "用 GitHub Pages 搭建个人站点",
+      "date": "2026-06-04",
+      "updated": "2026-06-07",
+      "year": "2026",
+      "category": "工程实践",
+      "summary": "记录一次把个人主页做成静态站点的过程：页面、内容索引、自动部署和长期维护。",
+      "tags": ["GitHub Pages", "静态站点", "博客"],
+      "url": "/posts/github-pages-static-kb/",
+      "cover": "/assets/images/background.svg",
+      "words": "1.7k",
+      "views": "121",
+      "content": "个人博客 静态站点 GitHub Pages Jekyll 搜索 部署"
+    },
+    {
+      "id": "ai-proxy-pattern",
+      "title": "前端站点接入 AI 时的安全边界",
+      "date": "2026-06-04",
+      "updated": "2026-06-07",
+      "year": "2026",
+      "category": "AI",
+      "summary": "记录公开前端页面接入 AI 能力时，哪些东西应该留在后端边界之后。",
+      "tags": ["AI", "安全", "前端"],
+      "url": "/posts/ai-proxy-pattern/",
+      "cover": "/assets/images/default.svg",
+      "words": "1.2k",
+      "views": "98",
+      "content": "前端安全 API Key Worker Serverless 环境变量 后端边界"
+    }
+  ],
+  "knowledge": [
+    {
+      "id": "engineering-notes-index",
+      "title": "工程札记索引",
+      "date": "2026-06-04",
+      "updated": "2026-06-07",
+      "year": "2026",
+      "category": "Engineering",
+      "summary": "把零散的问题复盘、工具体验和架构判断沉淀成可回看的短笔记。",
+      "tags": ["工程札记", "复盘", "工具"],
+      "url": "/notes/engineering-notes-index/",
+      "cover": "/assets/images/default.svg",
+      "words": "860",
+      "views": "76",
+      "content": "工程实践 项目复盘 工具体验 架构判断 长期维护"
+    },
+    {
+      "id": "reading-observation-index",
+      "title": "阅读与观察",
+      "date": "2026-06-04",
+      "updated": "2026-06-07",
+      "year": "2026",
+      "category": "Notes",
+      "summary": "记录读书摘录、产品观察、技术趋势和日常思考。",
+      "tags": ["读书", "观察", "思考"],
+      "url": "/notes/reading-observation-index/",
+      "cover": "/assets/images/default.svg",
+      "words": "720",
+      "views": "64",
+      "content": "读书摘录 产品观察 技术趋势 日常思考"
+    }
+  ],
+  "files": [
+    {
+      "id": "file-readme",
+      "title": "公开资料说明",
+      "date": "2026-06-04",
+      "updated": "2026-06-07",
+      "year": "2026",
+      "category": "Archive",
+      "size": "1KB",
+      "kind": "txt",
+      "summary": "说明公开资料目录的用途和文件大小约束。",
+      "tags": ["说明", "资料"],
+      "url": "/files/readme/",
+      "cover": "/assets/images/default.svg",
+      "words": "540",
+      "views": "51",
+      "content": "用于存放公开小文件，建议单文件不超过 10MB。"
+    }
+  ]
+}
