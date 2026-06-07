@@ -44,6 +44,21 @@
       "words": "1.2k",
       "views": "98",
       "content": "前端安全 API Key Worker Serverless 环境变量 后端边界"
+    },
+    {
+      "id": "mcp-environment-record",
+      "title": "MCP 使用环境记录",
+      "date": "2026-06-08",
+      "updated": "2026-06-08",
+      "year": "2026",
+      "category": "工程实践",
+      "summary": "记录当前在 Windows 与 WSL 中使用的 MCP 服务、启动方式、环境依赖和敏感信息处理边界。",
+      "tags": ["MCP", "Cursor", "WSL", "工具链"],
+      "url": "/posts/mcp-environment-record/",
+      "cover": "/assets/images/default.svg",
+      "words": "1.6k",
+      "views": "1",
+      "content": "MCP Cursor WSL Windows browsermcp Browser MCP extension 浏览器插件 Connect 当前标签页 context7 playwright figma GitHub MySQL npx nvm 环境变量 脱敏 token API Key 数据库 权限模型"
     }
   ],
   "knowledge": [
