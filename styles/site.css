@@ -140,10 +140,16 @@ select {
   overflow: hidden;
 }
 
+.index-cover {
+  display: block;
+  aspect-ratio: 1200 / 630;
+  overflow: hidden;
+}
+
 .index-cover img {
+  display: block;
   width: 100%;
   height: 100%;
-  min-height: 196px;
   object-fit: cover;
 }
 
@@ -668,6 +674,10 @@ select:focus {
   .search-box,
   .archive-item {
     grid-template-columns: 1fr;
+  }
+
+  .index-cover {
+    width: 100%;
   }
 
   .archive-thumb img {

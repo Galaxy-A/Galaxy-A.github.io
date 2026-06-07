@@ -23,7 +23,11 @@
       "year": "2026",
       "category": "工程实践",
       "summary": "记录一次把个人主页做成静态站点的过程：页面、内容索引、自动部署和长期维护。",
-      "tags": ["GitHub Pages", "静态站点", "博客"],
+      "tags": [
+        "GitHub Pages",
+        "静态站点",
+        "博客"
+      ],
       "url": "/posts/github-pages-static-kb/",
       "cover": "/assets/images/background.svg",
       "words": "1.7k",
@@ -38,12 +42,34 @@
       "year": "2026",
       "category": "AI",
       "summary": "记录公开前端页面接入 AI 能力时，哪些东西应该留在后端边界之后。",
-      "tags": ["AI", "安全", "前端"],
+      "tags": [
+        "AI",
+        "安全",
+        "前端"
+      ],
       "url": "/posts/ai-proxy-pattern/",
       "cover": "/assets/images/default.svg",
       "words": "1.2k",
       "views": "98",
       "content": "前端安全 API Key Worker Serverless 环境变量 后端边界"
+    },
+    {
+      "id": "cursor-skills-workflow",
+      "title": "使用skills",
+      "date": "2026-06-08",
+      "updated": "2026-06-08",
+      "year": "2026",
+      "category": "工程实践",
+      "summary": "记录把  Skills 放进项目后，如何让工具协作、内容维护和站点验证变成可复用流程。",
+      "tags": [
+        "Skills",
+        "自动化"
+      ],
+      "url": "/posts/cursor-skills-workflow/",
+      "cover": "/assets/images/default.svg",
+      "words": "1.3k",
+      "views": "1",
+      "content": " Skills 自动化 项目规则 内容维护 静态站点验证 脱敏 公开备份"
     },
     {
       "id": "mcp-environment-record",
@@ -53,7 +79,12 @@
       "year": "2026",
       "category": "工程实践",
       "summary": "记录当前在 Windows 与 WSL 中使用的 MCP 服务、启动方式、环境依赖和敏感信息处理边界。",
-      "tags": ["MCP", "Cursor", "WSL", "工具链"],
+      "tags": [
+        "MCP",
+        "Cursor",
+        "WSL",
+        "工具链"
+      ],
       "url": "/posts/mcp-environment-record/",
       "cover": "/assets/images/default.svg",
       "words": "1.6k",
@@ -70,7 +101,11 @@
       "year": "2026",
       "category": "Engineering",
       "summary": "把零散的问题复盘、工具体验和架构判断沉淀成可回看的短笔记。",
-      "tags": ["工程札记", "复盘", "工具"],
+      "tags": [
+        "工程札记",
+        "复盘",
+        "工具"
+      ],
       "url": "/notes/engineering-notes-index/",
       "cover": "/assets/images/default.svg",
       "words": "860",
@@ -85,7 +120,11 @@
       "year": "2026",
       "category": "Notes",
       "summary": "记录读书摘录、产品观察、技术趋势和日常思考。",
-      "tags": ["读书", "观察", "思考"],
+      "tags": [
+        "读书",
+        "观察",
+        "思考"
+      ],
       "url": "/notes/reading-observation-index/",
       "cover": "/assets/images/default.svg",
       "words": "720",
@@ -104,12 +143,36 @@
       "size": "1KB",
       "kind": "txt",
       "summary": "说明公开资料目录的用途和文件大小约束。",
-      "tags": ["说明", "资料"],
+      "tags": [
+        "说明",
+        "资料"
+      ],
       "url": "/files/readme/",
       "cover": "/assets/images/default.svg",
       "words": "540",
       "views": "51",
       "content": "用于存放公开小文件，建议单文件不超过 10MB。"
+    },
+    {
+      "id": "cursor-skills-public-copy",
+      "title": "Cursor Skills 公开备份",
+      "date": "2026-06-08",
+      "updated": "2026-06-08",
+      "year": "2026",
+      "category": "Archive",
+      "size": "86 files",
+      "kind": "markdown",
+      "summary": "经过筛选的 .cursor/skills 公开备份，只保留脱敏后的技能入口说明。",
+      "tags": [
+        "Cursor",
+        "Skills",
+        "资料备份"
+      ],
+      "url": "/files/cursor-skills-public-copy/",
+      "cover": "/assets/images/default.svg",
+      "words": "900",
+      "views": "1",
+      "content": ".cursor skills SKILL.md Cursor Skills 公开备份 脱敏 资料 文件索引"
     }
   ]
 }

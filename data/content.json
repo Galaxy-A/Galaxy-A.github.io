@@ -55,14 +55,13 @@
     },
     {
       "id": "cursor-skills-workflow",
-      "title": "我如何直接使用 .cursor/skills",
+      "title": "使用skills",
       "date": "2026-06-08",
       "updated": "2026-06-08",
       "year": "2026",
       "category": "工程实践",
-      "summary": "记录把 Cursor Skills 放进项目后，如何让工具协作、内容维护和站点验证变成可复用流程。",
+      "summary": "记录把 Skills 放进项目后，如何让工具协作、内容维护和站点验证变成可复用流程。",
       "tags": [
-        "Cursor",
         "Skills",
         "自动化"
       ],
@@ -70,7 +69,7 @@
       "cover": "/assets/images/default.svg",
       "words": "1.3k",
       "views": "1",
-      "content": ".cursor skills Cursor Skills 自动化 项目规则 内容维护 静态站点验证 脱敏 公开备份"
+      "content": " Skills 自动化 项目规则 内容维护 静态站点验证 脱敏 公开备份"
     },
     {
       "id": "mcp-environment-record",

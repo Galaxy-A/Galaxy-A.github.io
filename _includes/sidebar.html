@@ -1,5 +1,5 @@
 {% assign all_items = site.data.content.posts | concat: site.data.content.knowledge | concat: site.data.content.files %}
-{% assign latest_posts = site.data.content.posts | slice: 0, 5 %}
+{% assign latest_posts = site.data.content.posts | sort: 'date' | reverse | slice: 0, 5 %}
 {% assign categories = all_items | group_by: 'category' | sort: 'name' %}
 {% assign all_tags = '' | split: '' %}
 {% for item in all_items %}
