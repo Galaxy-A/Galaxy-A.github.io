@@ -3,10 +3,10 @@ layout: article
 title: MCP 使用环境记录
 type: Post
 date_label: 2026-06-08
-updated: 2026-06-08
+updated: 2026-06-09
 category: 工程实践
 summary: 记录当前在 Windows 与 WSL 中使用的 MCP 服务、启动方式、环境依赖和敏感信息处理边界。
-words: 1600
+words: 2100
 views: 1
 tags:
   - MCP
@@ -44,6 +44,7 @@ WSL 环境
 | `playwright` | 浏览器自动化与页面验证 | 支持 | 支持 | 中 |
 | `figma-context` | 读取 Figma 设计上下文 | 支持 | 支持 | 高 |
 | `github` | GitHub 仓库、Issue、PR 操作 | 未记录 | 支持 | 高 |
+| `ssh-mcp` | 通过 SSH 执行远端命令 | 支持 | 支持 | 极高 |
 | `mcp_server_mysql` | MySQL 数据库访问 | 未记录 | 支持 | 极高 |
 
 ## WSL 环境要求
@@ -177,6 +178,58 @@ Cursor MCP 配置
 ```
 
 GitHub token 必须走环境变量，不进入文章、截图、仓库或共享配置。
+
+### ssh-mcp
+
+当前更像 Cursor 可直接稳定使用的 SSH MCP，首选是 `ssh-mcp`：
+
+```text
+仓库：https://github.com/tufantunc/ssh-mcp
+npm：ssh-mcp
+当前版本：1.5.0
+CLI 入口：ssh-mcp -> build/index.js
+协议形态：MCP-compliant server
+启动方式：支持 stdio 配置
+Cursor 支持：README 明确写支持 Cursor
+工具能力：exec、sudo-exec
+认证方式：支持密码和 SSH key
+```
+
+Cursor 全局配置示例：
+
+```json
+{
+  "mcpServers": {
+    "ssh-mcp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "ssh-mcp",
+        "--",
+        "--host=<server-ip>",
+        "--port=22",
+        "--user=<ssh-user>",
+        "--key=/home/<user>/.ssh/id_rsa",
+        "--timeout=120000",
+        "--maxChars=none"
+      ]
+    }
+  }
+}
+```
+
+如果要装到 Cursor 全局 MCP，优先用 `ssh-mcp`。它对 Cursor、stdio 和 MCP-compliant server 的说明更明确，和当前 Cursor 的 MCP 配置方式更贴近。
+
+备选是 `@fangjunjie/ssh-mcp-server`：
+
+```text
+npm：@fangjunjie/ssh-mcp-server
+当前版本：1.8.3
+CLI 入口：ssh-mcp-server -> build/index.js
+描述：SSH-based MCP Server
+```
+
+SSH MCP 的风险级别应按远端命令执行工具处理。公开文章里只保留包名、版本、能力范围和占位符，不写真实服务器 IP、用户名、密码或私钥路径。
 
 ### mcp_server_mysql
 
